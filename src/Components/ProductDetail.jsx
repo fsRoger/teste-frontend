@@ -195,7 +195,7 @@ function ProductDetail(products) {
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', width: '380px', height: '600px' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', width: '360px', height: '844px' }}>
       <ProductDetailHeader />
 
       <Carrossel />
@@ -356,7 +356,7 @@ function ProductDetail(products) {
             style={{
               position: 'absolute',
               width: '100%',
-              bottom: 55,
+              bottom: 54,
               backgroundColor: 'gray',
               height: '2px',
               border: 'none',
