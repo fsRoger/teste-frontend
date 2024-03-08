@@ -13,14 +13,17 @@ import { IoIosArrowDropleft } from "react-icons/io";
 import { IoIosArrowDropright } from "react-icons/io";
 
 import {
-  ContainerCarrinho,
-  ContainerImageCarousel,
-  ContainerTamanhos,
-  ContainerThumbs,
-  HeaderInfo,
   ProductDetailHeaderContainer,
+
+  ContainerCarrinho,
+  ContainerTamanhos,
   TamanhoBox,
-  TamanhoCircle
+  TamanhoCircle,
+  ContainerThumbs,
+
+  ContainerImageCarousel,
+  HeaderInfo,
+  TextInfo,
 } from './ProductDetailsStyled';
 
 
@@ -41,7 +44,7 @@ function ProductDetail(products) {
   const [showInformations, setShowInformations] = useState(false);
   const [showSearchByRef, setShowSearchByRef] = useState(false);
   var reference = "";
-  const [quantidade, setQuantidade] = useState(0);
+
 
   useEffect(() => {
     setProductSelected(products.products.filter(product => product.category_name === categorySelected)[0]);
@@ -129,19 +132,44 @@ function ProductDetail(products) {
     setProductSelected(products.products.filter(product => product.reference === reference)[0]);
   }
 
+  const [quantidadesPorProduto, setQuantidadesPorProduto] = useState({});
+
   const aumentarQuantidade = () => {
-    setQuantidade(quantidade + 1);
+    setQuantidadesPorProduto((prevQuantidades) => ({
+      ...prevQuantidades,
+      [productSelected.reference]: (prevQuantidades[productSelected.reference] || 0) + 1,
+    }));
   };
 
   const diminuirQuantidade = () => {
-    if (quantidade > 0) {
-      setQuantidade(quantidade - 1);
+    if (quantidadesPorProduto[productSelected.reference] > 0) {
+      setQuantidadesPorProduto((prevQuantidades) => ({
+        ...prevQuantidades,
+        [productSelected.reference]: prevQuantidades[productSelected.reference] - 1,
+      }));
     }
   };
 
   const handleQuantidadeChange = (event) => {
     const newQuantidade = parseInt(event.target.value, 10);
-    setQuantidade(isNaN(newQuantidade) ? 0 : newQuantidade);
+    setQuantidadesPorProduto((prevQuantidades) => ({
+      ...prevQuantidades,
+      [productSelected.reference]: isNaN(newQuantidade) ? 0 : newQuantidade,
+    }));
+  };
+
+  const calcularValorTotalPorProduto = () => {
+    const quantidadeAtual = quantidadesPorProduto[productSelected.reference] || 0;
+    return (productSelected.price * quantidadeAtual).toFixed(2);
+  };
+
+  const calcularValorTotalAcumulado = () => {
+    const totalAcumulado = products.products.reduce((acc, product) => {
+      const quantidade = quantidadesPorProduto[product.reference] || 0;
+      return acc + product.price * quantidade;
+    }, 0);
+
+    return totalAcumulado.toFixed(2);
   };
 
   function ProductSizes({ product }) {
@@ -172,31 +200,30 @@ function ProductDetail(products) {
       let imagesElements = [];
       productSelected?.images.map((image, index) => {
         imagesElements.push(
-          <ContainerThumbs>
-            <img
-              style={{
-                width: '40px',
-                height: '40px',
-                border: '1px solid #7f7c7c',
-                borderRadius: '2px',
-                margin: '2px',
-                cursor: 'pointer',
-                transition: 'border-color 0.3s ease'
-              }}
-              src={image.image}
-              key={index}
-              alt={productSelected.name}
-              onClick={handleSetImageSelected}
-            />
-            <hr style={{ width: '80%', color: 'red' }}></hr>
-          </ContainerThumbs>
+          <>
+            <ContainerThumbs>
+
+              <img
+                src={image.image}
+                key={index}
+                alt={productSelected.name}
+                onClick={handleSetImageSelected}
+              />
+
+
+            </ContainerThumbs>
+          </>
+
         )
       });
 
       return (
+
         <div style={{ display: 'flex', flexDirection: 'row' }}>
           {imagesElements}
         </div>
+
+
       )
     }
 
@@ -207,6 +234,7 @@ function ProductDetail(products) {
         return null;
       }
       console.log('productSelected.colors', productSelected);
+
 
       let colors = [];
       productSelected.colors?.map((color, index) => {
@@ -219,24 +247,25 @@ function ProductDetail(products) {
           flexDirection: 'column',
           position: 'absolute',
           backgroundColor: 'white',
-          height: '80%',
+          height: '100%',
           width: '80%',
-          borderRadius: '15px',
-          borderWidth: '2px',
-          border: 'black'
+          borderRadius: '3px',
+          border: '1px solid rgb(141, 166, 189)',
+          top: '5%',
+          right: '10%',
         }}>
           <HeaderInfo>
             Informações
             <MdCancel style={{ cursor: 'pointer', position: 'absolute', right: '0' }} onClick={handleToggleShowInformations} />
           </HeaderInfo>
 
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start', padding: '5px' }}>
-            <span>Nome do produto: {productSelected?.name}</span>
-            <span>Referência: {productSelected?.reference}</span>
-            <span>Marca: {productSelected?.brand_name}</span>
-            <span>Categoria: {productSelected?.category_name}</span>
-            <span>Gênero: {productSelected?.group_name}</span>
-          </div>
+          <TextInfo style={{ display: 'flex', flexDirection: 'column', alignItems: 'start', padding: '5px' }}>
+            <span><a>Nome do produto:</a> {productSelected?.name}</span>
+            <span><a>Referência:</a> {productSelected?.reference}</span>
+            <span><a>Marca:</a> {productSelected?.brand_name}</span>
+            <span><a>Categoria:</a> {productSelected?.category_name}</span>
+            <span><a>Gênero:</a> {productSelected?.group_name}</span>
+          </TextInfo>
         </div>
       );
     }
@@ -252,21 +281,16 @@ function ProductDetail(products) {
           flexDirection: 'column',
           position: 'absolute',
           backgroundColor: 'white',
-          height: '80%',
+          height: '100%',
           width: '80%',
-          borderRadius: '15px',
-          borderWidth: '1px',
-          border: 'black'
+          borderRadius: '3px',
+          border: '1px solid rgb(141, 166, 189)',
+          top: '5%',
+          right: '10%',
         }}>
-          <header style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'center',
-            position: 'relative',
-            backgroundColor: 'rgb(141, 166, 189)'
-          }}>
+          <HeaderInfo >
 
-            Busca por REF
+            BUSCAR POR REF
             <MdCancel style={{
               cursor: 'pointer',
               position: 'absolute',
@@ -274,18 +298,17 @@ function ProductDetail(products) {
             }}
               onClick={handleToggleShowSearchByRef}
             />
-          </header>
+          </HeaderInfo>
 
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start', padding: '5px' }}>
-            <input onChange={handleChangeSearchByRef}></input>
-            <button onClick={handleSearchByRef}>Buscar</button>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '5px' }}>
+            <input placeholder='00.00.0000' onChange={handleChangeSearchByRef} style={{ padding: '5px', marginBottom: '10px', border: 'none', background: '#ccc' }}></input>
+            <button onClick={handleSearchByRef} style={{ padding: '5px', borderRadius: '5px', color: 'white', fontWeight: 'bold', backgroundColor: 'rgb(141, 166, 189)', border: 'none' }}>Buscar</button>
           </div>
         </div>
       );
     }
 
     return (
-
       <>
         <ContainerImageCarousel style={{
           display: 'flex',
@@ -294,8 +317,7 @@ function ProductDetail(products) {
           justifyContent: 'flex-end',
           position: 'relative',
 
-        }
-        }>
+        }}>
           <div>
             <RenderInformations style={{ cursor: "pointer", fontSize: "30px" }} />
             <RenderSearchByRef style={{ cursor: "pointer", fontSize: "50px" }} />
@@ -304,8 +326,6 @@ function ProductDetail(products) {
               style={{ height: '300px' }}
               src={imageSelected}
               alt="Descrição da imagem" />
-
-
           </div>
 
           <IoIosArrowDropleft
@@ -330,37 +350,41 @@ function ProductDetail(products) {
             onClick={handleSetProductNext}
           />
 
-          <div style={{ display: 'flex', flexDirection: 'row', gap: '5px' }}>
+          <div style={{ display: 'flex', flexDirection: 'row', gap: '5px', alignItems: 'center' }}>
             <CiCircleInfo style={{ cursor: 'pointer', fontSize: '30px', color: 'rgb(141, 166, 189)' }} onClick={handleToggleShowInformations} />
             <IoSearchCircleSharp style={{ cursor: 'pointer', fontSize: '30px', color: 'rgb(141, 166, 189)' }} onClick={handleToggleShowSearchByRef} />
             <RenderImages />
             <CiShoppingCart style={{ cursor: "pointer", fontSize: "30px", color: 'rgb(141, 166, 189)' }} />
+            <hr
+              style={{
+                position: 'absolute',
+                width: '100%',
+                bottom: 0,
+                backgroundColor: 'gray',
+                height: '2px',
+                border: 'none',
+              }}
+            />
           </div>
-
         </ContainerImageCarousel >
+
         <div>
           <span style={{ marginRight: '20px', padding: '20px' }}>{productSelected?.name?.split(' ')[0]}</span>
           <span style={{ marginRight: '20px', padding: '20px' }}>REF:{productSelected?.reference}</span>
           <span>R${parseFloat(productSelected?.price ?? 0).toFixed(2)}</span>
-
         </div>
 
         <ContainerCarrinho>
           <div>
-
             <h4>Atual</h4>
-            <span>
-              R${(productSelected?.price * quantidade).toFixed(2)}
-            </span>
+            <span>R${calcularValorTotalPorProduto()}</span>
           </div>
-          <GrSubtractCircle style={{ cursor: "pointer", fontSize: "30px" }} onClick={diminuirQuantidade} />
-          <input type="text" value={quantidade} onChange={handleQuantidadeChange} />
-          <IoMdAddCircle style={{ cursor: "pointer", fontSize: "30px" }} onClick={aumentarQuantidade} />
+          <GrSubtractCircle style={{ cursor: 'pointer', fontSize: '30px' }} onClick={diminuirQuantidade} />
+          <input type="text" value={quantidadesPorProduto[productSelected.reference] || 0} onChange={handleQuantidadeChange} />
+          <IoMdAddCircle style={{ cursor: 'pointer', fontSize: '30px' }} onClick={aumentarQuantidade} />
           <div>
             <h4>Acumulado</h4>
-            <span>
-              R${(productSelected?.price * quantidade).toFixed(2)}
-            </span>
+            <span>R${calcularValorTotalAcumulado()}</span>
           </div>
         </ContainerCarrinho>
 

@@ -1,12 +1,5 @@
 import styled from 'styled-components';
 
-export const ProductDetailContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 380px;
-  height: 600px;
-`;
-
 export const ProductDetailHeaderContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -14,17 +7,7 @@ export const ProductDetailHeaderContainer = styled.div`
   padding: 2px;
   background-color:  rgb(141, 166, 189);
 
-  h2{
-   
-    padding-top: 12px;
-    border: 1px solid #fff;
-    border-radius: 8px;
-    color:rgb(141, 166, 189);
-    padding: 5px;
-    display: inline-block;  
-    margin: 10px;
-    background-color: #fff;
-  }
+
   svg {
     font-size: 30px;
     color: white;
@@ -43,9 +26,68 @@ export const ProductDetailHeaderContainer = styled.div`
     color:rgb(141, 166, 189);
     font-size: 25px;
   }
-  p
 
 `;
+
+export const ContainerTamanhos = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color:rgb(141, 166, 189);
+  height: 80px;
+`;
+
+export const TamanhoBox = styled.div`
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 10px;
+  background-color: white;
+  border-radius: 10%;
+  height: 30px;
+  width: 30px;
+  text-align: center;
+  justify-content: center;
+
+  span{
+    padding-bottom: 25px;
+  }
+  
+`;
+
+export const TamanhoCircle = styled.div`
+  width: 22px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid;
+  border-color: #ccc;
+  background-color: #fff;
+  margin-bottom: 5px;
+  margin-left: 20px;
+`;
+
+export const ContainerThumbs = styled.div`
+  img{
+    width: 40px;
+    height: 40px;
+    border: 1px solid #7f7c7c;
+    borderRadius: 2px;
+    margin: 2px;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+  }
+
+`
+export const TextInfo = styled.div`
+
+a{
+  font-weight: bold;
+  
+}`
+
+
+
 
 export const CarrosselContainer = styled.div`
   display: flex;
@@ -84,12 +126,7 @@ export const RenderSearchByRefContainer = styled.div`
   border: black;
 `;
 
-export const ContainerThumbs = styled.div`
- 
-        
-       
 
-`
 export const HeaderInfo = styled.div`
   background-color: rgb(141, 166, 189);
   color:white;
@@ -137,40 +174,3 @@ span{
 
 `
 
-export const ContainerTamanhos = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color:rgb(141, 166, 189);
-  height: 80px;
-`;
-
-export const TamanhoBox = styled.div`
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 0 10px;
-  background-color: white;
-  border-radius: 10%;
-  height: 30px;
-  width: 30px;
-  text-align: center;
-  justify-content: center;
-
-  span{
-    padding-bottom: 25px;
-  }
-  
-`;
-
-export const TamanhoCircle = styled.div`
-  width: 22px;
-  height: 28px;
-  border-radius: 50%;
-  border: 1px solid;
-  border-color: #ccc;
-  background-color: #fff;
-  margin-bottom: 5px;
-  margin-left: 20px;
-`;
