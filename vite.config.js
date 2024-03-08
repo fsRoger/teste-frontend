@@ -6,6 +6,6 @@ import reactIcons from 'vite-plugin-react-icons';
 export default defineConfig({
   plugins: [
     react(),
-    reactIcons(),
+    reactIcons.default(),
   ],
 })
