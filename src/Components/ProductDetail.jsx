@@ -254,6 +254,7 @@ function ProductDetail(products) {
           border: '1px solid rgb(141, 166, 189)',
           top: '5%',
           right: '10%',
+          zIndex: 2,
         }}>
           <HeaderInfo>
             Informações
@@ -288,6 +289,7 @@ function ProductDetail(products) {
           border: '1px solid rgb(141, 166, 189)',
           top: '5%',
           right: '10%',
+          zIndex: 2,
         }}>
           <HeaderInfo >
 
