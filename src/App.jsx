@@ -3,7 +3,7 @@ import products from './dados.js';
 import ProductList from './Components/ProductList.jsx';
 function App() {
   return (
-    <div className="App">
+    <div className="App" style={{ height: '844px' }}>
       <ProductList products={products} />
     </div>
   );

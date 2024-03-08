@@ -195,7 +195,7 @@ function ProductDetail(products) {
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', width: '360px', height: '844px' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', width: '360px', height: '800px' }}>
       <ProductDetailHeader />
 
       <Carrossel />
@@ -326,7 +326,7 @@ function ProductDetail(products) {
             <RenderSearchByRef style={{ cursor: "pointer", fontSize: "50px" }} />
 
             <img
-              style={{ height: '300px' }}
+              style={{ height: '400px' }}
               src={imageSelected}
               alt="Descrição da imagem" />
           </div>
