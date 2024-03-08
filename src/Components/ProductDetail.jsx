@@ -14,13 +14,11 @@ import { IoIosArrowDropright } from "react-icons/io";
 
 import {
   ProductDetailHeaderContainer,
-
   ContainerCarrinho,
   ContainerTamanhos,
   TamanhoBox,
   TamanhoCircle,
   ContainerThumbs,
-
   ContainerImageCarousel,
   HeaderInfo,
   TextInfo,
@@ -172,18 +170,27 @@ function ProductDetail(products) {
     return totalAcumulado.toFixed(2);
   };
 
+  /////------------Caixas de Tamanhos------------
   function ProductSizes({ product }) {
+    const somaTotalTamanhos = Object.values(product.sizes).reduce((acc, quantity) => acc + quantity, 0);
     return (
-      <ContainerTamanhos>
-        {Object.entries(product.sizes).map(([size, quantity]) => (
-          <TamanhoBox key={size}>
-            <TamanhoCircle>
-              <span>{size}</span>
-            </TamanhoCircle >
-            <span>{quantity}</span>
-          </TamanhoBox>
-        ))}
-      </ContainerTamanhos>
+      <>
+        <ContainerTamanhos>
+          {Object.entries(product.sizes).map(([size, quantity]) => (
+            <TamanhoBox key={size}>
+              <TamanhoCircle>
+                <span>{size}</span>
+              </TamanhoCircle >
+              <span>{quantity}</span>
+            </TamanhoBox>
+          ))}
+          <span style={{ marginLeft: '5px', color: 'white' }}>=</span>
+          <TamanhoBox style={{ marginLeft: '10px' }}>
+            <p style={{ color: 'white', fontWeight: 'bold', margin: '4px', marginLeft: '5px' }}>PACK</p>
+            <span>{somaTotalTamanhos}</span>
+          </TamanhoBox >
+        </ContainerTamanhos>
+      </>
     );
   }
 
@@ -202,18 +209,14 @@ function ProductDetail(products) {
         imagesElements.push(
           <>
             <ContainerThumbs>
-
               <img
                 src={image.image}
                 key={index}
                 alt={productSelected.name}
                 onClick={handleSetImageSelected}
               />
-
-
             </ContainerThumbs>
           </>
-
         )
       });
 
@@ -222,8 +225,6 @@ function ProductDetail(products) {
         <div style={{ display: 'flex', flexDirection: 'row' }}>
           {imagesElements}
         </div>
-
-
       )
     }
 
@@ -349,22 +350,35 @@ function ProductDetail(products) {
             }}
             onClick={handleSetProductNext}
           />
+          <hr
+            style={{
+              position: 'absolute',
+              width: '100%',
+              bottom: 55,
+              backgroundColor: 'gray',
+              height: '2px',
+              border: 'none',
+              justifyContent: 'start'
+            }}
+          />
+          <hr
+            style={{
+              position: 'absolute',
+              width: '80%',
+              bottom: 0,
+              backgroundColor: 'gray',
+              height: '1px',
+              border: 'none',
+              justifyContent: 'start'
+            }}
+          />
 
           <div style={{ display: 'flex', flexDirection: 'row', gap: '5px', alignItems: 'center' }}>
             <CiCircleInfo style={{ cursor: 'pointer', fontSize: '30px', color: 'rgb(141, 166, 189)' }} onClick={handleToggleShowInformations} />
             <IoSearchCircleSharp style={{ cursor: 'pointer', fontSize: '30px', color: 'rgb(141, 166, 189)' }} onClick={handleToggleShowSearchByRef} />
             <RenderImages />
             <CiShoppingCart style={{ cursor: "pointer", fontSize: "30px", color: 'rgb(141, 166, 189)' }} />
-            <hr
-              style={{
-                position: 'absolute',
-                width: '100%',
-                bottom: 0,
-                backgroundColor: 'gray',
-                height: '2px',
-                border: 'none',
-              }}
-            />
+
           </div>
         </ContainerImageCarousel >
 
